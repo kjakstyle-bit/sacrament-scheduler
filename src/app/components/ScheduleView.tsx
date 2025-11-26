@@ -104,7 +104,7 @@ export function ScheduleView({ user, profile, members }: ScheduleViewProps) {
     return (
         <div className="min-h-screen pb-20 pt-8">
             <div className="w-full max-w-md mx-auto px-4 mb-6 flex justify-between items-center">
-                <div>
+                <div className="w-full text-center">
                     <h1 className="text-2xl font-bold text-foreground tracking-tight">聖餐担当表</h1>
                     <p className="text-xs text-muted-foreground mt-0.5">今週の割り当てを確認・編集</p>
                 </div>

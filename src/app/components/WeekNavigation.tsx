@@ -13,7 +13,7 @@ interface WeekNavigationProps {
 export function WeekNavigation({ currentDate, onPrevWeek, onNextWeek }: WeekNavigationProps) {
     return (
         <div className="w-full max-w-md mx-auto bg-card shadow-sm rounded-xl p-4 mb-4 border border-border/50">
-            <h2 className="text-lg font-bold text-foreground mb-3 ml-1">
+            <h2 className="text-2xl font-bold text-foreground mb-3 text-center">
                 {format(currentDate, "M月d日", { locale: ja })}
             </h2>
             <div className="flex gap-3">
