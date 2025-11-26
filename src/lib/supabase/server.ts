@@ -3,10 +3,22 @@ import { cookies } from 'next/headers'
 
 export function createClient() {
     const cookieStore = cookies()
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (!url || !key) {
+        // Build time check: if these are missing during build, we might want to return a dummy client or throw
+        // But throwing is better to catch config errors.
+        // However, for static generation, we might need to be careful.
+        // Since we are forcing dynamic, this should only run at runtime.
+        if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PHASE) {
+            console.error('Supabase env vars missing!')
+        }
+    }
 
     return createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        url!,
+        key!,
         {
             cookies: {
                 get(name: string) {

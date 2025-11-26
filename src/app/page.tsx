@@ -2,7 +2,10 @@ import { createClient } from '@/lib/supabase/server'
 import { ScheduleView } from './components/ScheduleView'
 import { prisma } from '@/lib/prisma'
 
+import { Profile } from '@prisma/client'
 import { Member } from './members/types'
+
+export const dynamic = 'force-dynamic'
 
 export default async function Page() {
   console.log('Page component rendering...')
@@ -27,7 +30,7 @@ export default async function Page() {
     const profiles = await prisma.profile.findMany({
       orderBy: { name: 'asc' },
     })
-    members = profiles.map(p => ({
+    members = profiles.map((p: any) => ({
       id: p.id,
       name: p.name,
       priesthood: (p.priesthood as Member['priesthood']) || '執事',
