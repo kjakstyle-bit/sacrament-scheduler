@@ -4,9 +4,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
+    "postinstall": "prisma generate",
     "test": "jest",
     "prisma:db:push": "dotenv -e .env.local -- npx prisma db push"
   },
