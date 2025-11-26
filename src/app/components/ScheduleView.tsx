@@ -102,30 +102,40 @@ export function ScheduleView({ user, profile, members }: ScheduleViewProps) {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50/50 pb-20 pt-6">
-            <div className="w-full max-w-md mx-auto px-4 mb-4 flex justify-between items-center">
-                <h1 className="text-lg font-bold text-gray-900">聖餐担当表</h1>
+        <div className="min-h-screen pb-20 pt-8">
+            <div className="w-full max-w-md mx-auto px-4 mb-6 flex justify-between items-center">
+                <div>
+                    <h1 className="text-2xl font-bold text-foreground tracking-tight">聖餐担当表</h1>
+                    <p className="text-xs text-muted-foreground mt-0.5">今週の割り当てを確認・編集</p>
+                </div>
                 {user ? (
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-gray-700">{profile?.name || user.email}</span>
-                        <Button variant="ghost" size="sm" onClick={handleLogout}>ログアウト</Button>
+                    <div className="flex items-center gap-3">
+                        <div className="text-right hidden sm:block">
+                            <div className="text-sm font-medium text-foreground">{profile?.name || 'ゲスト'}</div>
+                            <div className="text-[10px] text-muted-foreground">{user.email}</div>
+                        </div>
+                        <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-foreground">
+                            ログアウト
+                        </Button>
                     </div>
                 ) : (
-                    <Button variant="outline" size="sm" asChild>
+                    <Button variant="default" size="sm" asChild className="shadow-sm">
                         <Link href="/login">ログイン</Link>
                     </Button>
                 )}
             </div>
 
-            <div className="px-4 sticky top-0 z-10 bg-gray-50/95 backdrop-blur pb-2">
-                <WeekNavigation
-                    currentDate={currentDate}
-                    onPrevWeek={handlePrevWeek}
-                    onNextWeek={handleNextWeek}
-                />
+            <div className="px-4 sticky top-0 z-10 bg-background/80 backdrop-blur-md pb-4 pt-2 -mx-4 mb-2 border-b border-border/40 transition-all">
+                <div className="max-w-md mx-auto">
+                    <WeekNavigation
+                        currentDate={currentDate}
+                        onPrevWeek={handlePrevWeek}
+                        onNextWeek={handleNextWeek}
+                    />
+                </div>
             </div>
 
-            <div className="px-4">
+            <div className="px-4 mt-6">
                 <AssignmentList
                     assignments={assignments}
                     members={members}

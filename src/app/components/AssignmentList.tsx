@@ -1,6 +1,6 @@
 import { Member } from "@/app/members/types"
 import { X } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 
 export type AssignmentDisplay = {
     id: string
@@ -38,57 +38,62 @@ export function AssignmentList({ assignments, members, onAssign, onRemove }: Ass
 
     return (
         <div className="w-full max-w-md mx-auto">
-            <div className="grid grid-cols-2 gap-4">
-                {assignments.map((assignment) => {
-                    const availableMembers = getFilteredMembers(assignment.role)
+            <Card className="overflow-hidden border-border/50 shadow-sm">
+                <div className="divide-y divide-border/40">
+                    {assignments.map((assignment) => {
+                        const availableMembers = getFilteredMembers(assignment.role)
+                        const isAssigned = !!assignment.profile
 
-                    return (
-                        <Card key={assignment.id} className="overflow-hidden">
-                            <CardHeader className="p-3 pb-2 bg-gray-50/50">
-                                <CardTitle className="text-sm font-medium text-gray-700 text-center">
+                        return (
+                            <div key={assignment.id} className="flex items-center justify-between p-4 hover:bg-muted/30 transition-colors">
+                                <div className="font-medium text-foreground text-sm min-w-[5rem]">
                                     {assignment.role}
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="p-3 pt-2">
-                                <div className="flex items-center justify-center min-h-[3rem]">
+                                </div>
+                                <div className="flex-1 flex justify-end">
                                     {assignment.profile ? (
-                                        <div className="flex flex-col items-center gap-1 w-full">
-                                            <div className="relative w-full text-center bg-blue-50/50 rounded-md py-1.5 border border-blue-100">
-                                                <span className="text-gray-900 font-medium text-sm block truncate px-2">
-                                                    {assignment.profile.name}
-                                                </span>
-                                                <button
-                                                    onClick={() => onRemove(assignment.id)}
-                                                    className="absolute -top-1.5 -right-1.5 bg-white rounded-full p-0.5 shadow-sm border border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-200 transition-colors"
-                                                >
-                                                    <X className="h-3 w-3" />
-                                                </button>
-                                            </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-sm font-medium text-primary">
+                                                {assignment.profile.name}
+                                            </span>
+                                            <button
+                                                onClick={() => onRemove(assignment.id)}
+                                                className="text-muted-foreground/50 hover:text-destructive transition-colors p-1"
+                                                aria-label="割り当て解除"
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </button>
                                         </div>
                                     ) : (
-                                        <select
-                                            className="block w-full rounded-md border-gray-300 py-1.5 text-gray-900 text-sm shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xs sm:leading-6"
-                                            onChange={(e) => {
-                                                if (e.target.value) {
-                                                    onAssign(assignment.role, e.target.value)
-                                                }
-                                            }}
-                                            defaultValue=""
-                                        >
-                                            <option value="" disabled>未選択</option>
-                                            {availableMembers.map((member) => (
-                                                <option key={member.id} value={member.id}>
-                                                    {member.name}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        <div className="relative w-full max-w-[10rem]">
+                                            <select
+                                                className="block w-full appearance-none bg-transparent py-1 pr-6 text-right text-sm text-muted-foreground focus:outline-none cursor-pointer hover:text-foreground transition-colors"
+                                                onChange={(e) => {
+                                                    if (e.target.value) {
+                                                        onAssign(assignment.role, e.target.value)
+                                                    }
+                                                }}
+                                                defaultValue=""
+                                            >
+                                                <option value="" disabled>未選択</option>
+                                                {availableMembers.map((member) => (
+                                                    <option key={member.id} value={member.id}>
+                                                        {member.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center text-muted-foreground/50">
+                                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                                </svg>
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
-                            </CardContent>
-                        </Card>
-                    )
-                })}
-            </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            </Card>
         </div>
     )
 }
