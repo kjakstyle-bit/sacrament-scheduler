@@ -16,9 +16,13 @@ export function createClient() {
         }
     }
 
+    // Fallback for build time or missing env vars
+    const supabaseUrl = url || 'https://example.com'
+    const supabaseKey = key || 'dummy-key'
+
     return createServerClient(
-        url!,
-        key!,
+        supabaseUrl,
+        supabaseKey,
         {
             cookies: {
                 get(name: string) {
