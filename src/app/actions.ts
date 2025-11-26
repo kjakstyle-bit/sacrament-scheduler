@@ -3,6 +3,8 @@
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
+import { Assignment, Profile } from '@prisma/client'
+
 export async function getAssignments(startDate: Date, endDate: Date) {
     const assignments = await prisma.assignment.findMany({
         where: {
@@ -16,7 +18,7 @@ export async function getAssignments(startDate: Date, endDate: Date) {
         },
     })
 
-    return assignments.map(a => ({
+    return assignments.map((a: Assignment & { profile: Profile | null }) => ({
         id: a.id,
         role: a.role,
         date: a.date,
