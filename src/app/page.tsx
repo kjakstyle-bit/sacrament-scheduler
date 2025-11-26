@@ -6,6 +6,7 @@ import { Profile } from '@prisma/client'
 import { Member } from './members/types'
 
 export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
 
 export default async function Page() {
   console.log('Page component rendering...')
