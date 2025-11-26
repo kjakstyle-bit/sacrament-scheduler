@@ -1,0 +1,37 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ユーザー情報 (Authと連携)
+model Profile {
+  id         String @id @default(uuid()) @db.Uuid // Supabase Authのuser.idと紐づける、または手動作成
+  name       String
+  priesthood String? // 職 (執事, 教師, 祭司, メルキゼデク)
+  // ユーザーが担当した割り当て
+  assignments Assignment[]
+}
+
+// 担当割り当て情報
+model Assignment {
+  id          String   @id @default(cuid())
+  // 割り当て日 (日時情報は不要なため日付型のみ)
+  date        DateTime @db.Date 
+  // 役割名 (例: 祝福パン、パス1など)
+  role        String
+  // 担当したユーザーID (Profileへの外部キー)
+  profileId   String   @db.Uuid
+  
+  // リレーション定義
+  profile     Profile  @relation(fields: [profileId], references: [id])
+  
+  // 同一の日付と役割に重複して割り当てられないようにする制約
+  @@unique([date, role])
+  // dateとroleで検索を最適化するためのインデックス
+  @@index([date, role])
+}

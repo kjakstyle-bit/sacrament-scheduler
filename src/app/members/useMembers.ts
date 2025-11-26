@@ -1,7 +1,9 @@
 'use client';
 
 import useSWR from 'swr';
-import type { Member } from '../api/members/route';
+import { Member } from './types';
+
+export type { Member };
 
 const API_ENDPOINT = '/api/members';
 
@@ -22,11 +24,11 @@ export function useMembers() {
 
     if (!response.ok) {
       const errorBody = await response.json().catch(() => ({ message: 'An unknown error occurred' }));
-      throw new Error(errorBody.message || 'API request failed');
+      throw new Error(errorBody.message || errorBody.error || 'API request failed');
     }
 
     // ローカルのSWRキャッシュを即時更新し、その後サーバーから再取得
-    mutate(); 
+    mutate();
     return response.json().catch(() => null);
   };
 
