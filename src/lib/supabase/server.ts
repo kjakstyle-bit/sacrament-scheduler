@@ -18,7 +18,8 @@ export function createClient() {
 
     // Fallback for build time or missing env vars
     // Ensure we have a valid URL string, handling undefined or empty string
-    const supabaseUrl = (url && url.length > 0) ? url : 'https://example.com'
+    const isValidUrl = (u: string | undefined) => u && u.startsWith('http')
+    const supabaseUrl = isValidUrl(url) ? url! : 'https://example.com'
     const supabaseKey = (key && key.length > 0) ? key : 'dummy-key'
 
     return createServerClient(
