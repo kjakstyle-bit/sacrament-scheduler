@@ -62,7 +62,15 @@ export async function middleware(request: NextRequest) {
         }
     )
 
-    await supabase.auth.getUser()
+    // Only refresh session if we have a valid URL
+    if (supabaseUrl !== 'https://example.com') {
+        try {
+            await supabase.auth.getUser()
+        } catch (error) {
+            // Suppress errors in middleware to prevent 500s
+            console.error('Middleware auth error:', error)
+        }
+    }
 
     return response
 }
