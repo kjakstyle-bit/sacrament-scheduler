@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { differenceInCalendarWeeks, format } from "date-fns"
+import { differenceInCalendarWeeks, format, addDays } from "date-fns"
 import { ja } from "date-fns/locale"
 
 interface WeekNavigationProps {
@@ -11,7 +11,13 @@ interface WeekNavigationProps {
 }
 
 export function WeekNavigation({ currentDate, onPrevWeek, onNextWeek }: WeekNavigationProps) {
-    const weekDiff = differenceInCalendarWeeks(currentDate, new Date(), { locale: ja })
+    // Calculate reference date (today or next Sunday)
+    const today = new Date()
+    const day = today.getDay()
+    const daysUntilSunday = (7 - day) % 7
+    const referenceDate = addDays(today, daysUntilSunday)
+
+    const weekDiff = differenceInCalendarWeeks(currentDate, referenceDate, { locale: ja })
 
     return (
         <div className="w-full max-w-md mx-auto bg-card shadow-sm rounded-xl p-4 mb-4 border border-border/50">
