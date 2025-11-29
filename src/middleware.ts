@@ -8,9 +8,16 @@ export async function middleware(request: NextRequest) {
         },
     })
 
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    // Fallback for build time or missing env vars to prevent "Invalid supabaseUrl" error
+    const supabaseUrl = (url && url.length > 0) ? url : 'https://example.com'
+    const supabaseKey = (key && key.length > 0) ? key : 'dummy-key'
+
     const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        supabaseUrl,
+        supabaseKey,
         {
             cookies: {
                 get(name: string) {
