@@ -12,12 +12,14 @@ interface WeekNavigationProps {
 
 export function WeekNavigation({ currentDate, onPrevWeek, onNextWeek }: WeekNavigationProps) {
     // Calculate reference date (today or next Sunday)
+    // If today is Sunday, reference is today. If Saturday, reference is tomorrow (Sunday).
     const today = new Date()
     const day = today.getDay()
     const daysUntilSunday = (7 - day) % 7
     const referenceDate = addDays(today, daysUntilSunday)
 
-    const weekDiff = differenceInCalendarWeeks(currentDate, referenceDate, { locale: ja })
+    // Calculate week difference forcing Sunday as start of week
+    const weekDiff = differenceInCalendarWeeks(currentDate, referenceDate, { locale: ja, weekStartsOn: 0 })
 
     return (
         <div className="w-full max-w-md mx-auto bg-card shadow-sm rounded-xl p-4 mb-4 border border-border/50">

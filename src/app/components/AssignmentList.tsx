@@ -47,7 +47,19 @@ export function AssignmentList({ assignments, members, onAssign, onRemove }: Ass
                         return (
                             <div key={assignment.id} className="flex items-center justify-between p-4 hover:bg-muted/30 transition-colors">
                                 <div className="font-medium text-foreground text-sm min-w-[5rem]">
-                                    {assignment.role}
+                                    {assignment.role === 'パス１' ? (
+                                        <a
+                                            href="https://youtube.com/shorts/C3kYdHWymrQ"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="hover:underline text-blue-500 hover:text-blue-600 transition-colors flex items-center gap-1"
+                                        >
+                                            {assignment.role}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-external-link"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>
+                                        </a>
+                                    ) : (
+                                        assignment.role
+                                    )}
                                 </div>
                                 <div className="flex-1 flex justify-end">
                                     {assignment.profile ? (
