@@ -6,7 +6,7 @@ const connectionString = process.env.DATABASE_URL!
 
 const pool = new Pool({
   connectionString,
-  ssl: true, // Supabase requires SSL
+  ssl: { rejectUnauthorized: false }, // Allow self-signed certs for Supabase
 })
 const adapter = new PrismaPg(pool)
 
