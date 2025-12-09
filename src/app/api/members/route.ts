@@ -43,6 +43,7 @@ export async function POST(request: Request) {
     return NextResponse.json(memberToAdd, { status: 201 });
   } catch (error: any) {
     console.error('Error adding member:', error);
+    console.error('Error details:', JSON.stringify(error, null, 2));
     return new NextResponse(JSON.stringify({ error: error.message, details: error }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
